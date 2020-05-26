@@ -7,27 +7,27 @@ import { Album } from '../_models/album';
 import { RawMetrics } from '../_models/RawMetrics';
 import { Category } from '../_models/category';
 
-import { Callback } from '../_models/logincallback'
-import { SafePipe } from "../safe.pipe";
-//components
+import { Callback } from '../_models/logincallback';
+import { SafePipe } from '../safe.pipe';
+// components
 import { CategorySelectorComponent } from '../main-page/category-selector/category-selector.component';
 import { CompositeScoreComponent } from '../main-page/composite-score/composite-score.component';
 import { OutliersComponent } from '../outliers/outliers.component';
 
 export const CATEGORIES: Array<Category> = Array(
-  new Category("Danceability", "danceability"),
-  new Category("Energy", "energy"),
-  //new Category("Key", "key"),
-  //new Category("Loudness","loudness"),
-  new Category("Mode", "mode"),
-  new Category("Speechiness", "speechiness"),
-  new Category("Acousticness", "acousticness"),
-  new Category("Instrumentalness", "instrumentalness"),
-  new Category("Liveness", "liveness"),
-  new Category("Valence", "valence"),
-  new Category("Tempo", "tempo"),
-  new Category("Time Signature", "time_signature"),
-  new Category("Duration", "duration_ms")
+  new Category('Danceability', 'danceability'),
+  new Category('Energy', 'energy'),
+  // new Category("Key", "key"),
+  // new Category("Loudness","loudness"),
+  new Category('Mode', 'mode'),
+  new Category('Speechiness', 'speechiness'),
+  new Category('Acousticness', 'acousticness'),
+  new Category('Instrumentalness', 'instrumentalness'),
+  new Category('Liveness', 'liveness'),
+  new Category('Valence', 'valence'),
+  new Category('Tempo', 'tempo'),
+  new Category('Time Signature', 'time_signature'),
+  new Category('Duration', 'duration_ms')
 );
 
 
@@ -38,17 +38,17 @@ export const CATEGORIES: Array<Category> = Array(
 })
 
 export class MainPageComponent implements OnInit {
-  linkSubmitStr: string; //link of the playlist
-  widgetSubmitStr: string; //link created for the widget
-  trackIDArray: string; //stringified array of track ids in playlist
+  linkSubmitStr: string; // link of the playlist
+  widgetSubmitStr: string; // link created for the widget
+  trackIDArray: string; // stringified array of track ids in playlist
   hidden: boolean; // determines when to reveal the response
   userPlaylist: Playlist; // to store the playlist
   categories: Array<Category> = CATEGORIES;
-  hideOutliers: Boolean = true;
+  hideOutliers: boolean = true;
 
-  @ViewChild("appCategorySelector") appCategorySelector: CategorySelectorComponent;
-  @ViewChild("appCompositeScore") appCompositeScore: CompositeScoreComponent;
-  @ViewChild("outlierList") outlierList: OutliersComponent;
+  @ViewChild('appCategorySelector') appCategorySelector: CategorySelectorComponent;
+  @ViewChild('appCompositeScore') appCompositeScore: CompositeScoreComponent;
+  @ViewChild('outlierList') outlierList: OutliersComponent;
 
   loginCallback: Callback;
 
@@ -115,13 +115,13 @@ export class MainPageComponent implements OnInit {
     // Reset the data containers:
     this.userPlaylist.tracks = new Array<Track>();
     this.userPlaylist.metrics = new Array<RawMetrics>();
-    this.trackIDArray = "";
+    this.trackIDArray = '';
     this.hideOutliers = true;
 
     this.linkSubmitStr = this.parseID(this.linkSubmitStr);
 
     this.widgetSubmitStr = `https://open.spotify.com/embed/playlist/${this.linkSubmitStr}`;
-    
+
     console.log('Calling to spotify api service');
 
     this.spotifyApi.GetPlaylistResults(this.linkSubmitStr, this.loginCallback.access_token)
@@ -150,7 +150,7 @@ export class MainPageComponent implements OnInit {
             }
             this.userPlaylist.tracks.push(tmpTrack);
           }
-          //this.ShowPlaylistElements();
+          // this.ShowPlaylistElements();
         }
       },
       complete: () =>
@@ -189,18 +189,18 @@ export class MainPageComponent implements OnInit {
           complete: () =>
           {
             // console.log(`hey, the category is verified: ${this.appCategorySelector.validateCategory()}`);
-            this.appCompositeScore.CalculateCompositeScore(this.userPlaylist.metrics, this.appCategorySelector.category); 
+            this.appCompositeScore.CalculateCompositeScore(this.userPlaylist.metrics, this.appCategorySelector.category);
             this.ShowPlaylistElements();
 
             // Find and display outliers on the screen:
             this.outlierList.getOutliers(
-              this.userPlaylist, 
-              this.appCompositeScore.average, 
+              this.userPlaylist,
+              this.appCompositeScore.average,
               this.appCategorySelector.category
             );
-            
-            //this.getFeaturesSubscription.unsubscribe();
-            //this.getPlaylistSubscription.unsubscribe();
+
+            // this.getFeaturesSubscription.unsubscribe();
+            // this.getPlaylistSubscription.unsubscribe();
 
           }
         });
@@ -209,20 +209,20 @@ export class MainPageComponent implements OnInit {
   }
 
   parseID(linkSubmitStr: string): string {
-    var idParsed: string = "";
+    let idParsed = '';
 
-    if(linkSubmitStr.length > 22) {
-      var playlistPosition: number = linkSubmitStr.toLowerCase().search("playlist");
-      if(playlistPosition > -1) {
-        var idPosition: number = playlistPosition + 9;
+    if (linkSubmitStr.length > 22) {
+      const playlistPosition: number = linkSubmitStr.toLowerCase().search('playlist');
+      if (playlistPosition > -1) {
+        const idPosition: number = playlistPosition + 9;
         idParsed = linkSubmitStr.slice(idPosition, idPosition + 22);
         return idParsed;
       }
-    } 
+    }
     return linkSubmitStr;
   }
 
-  outliersButtonClicked(clicked: Boolean) {
+  outliersButtonClicked(clicked: boolean) {
     this.hideOutliers = !clicked;
 
   }

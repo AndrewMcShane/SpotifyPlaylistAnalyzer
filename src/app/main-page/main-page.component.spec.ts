@@ -15,7 +15,7 @@ describe('MainPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      declarations: [ 
+      declarations: [
         MainPageComponent,
         SafePipe
        ]
@@ -29,10 +29,10 @@ describe('MainPageComponent', () => {
     fixture.detectChanges();
   });
 
-  //* Commented out for CI demo
-  //*/
+  // * Commented out for CI demo
+  // */
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  //*/
+  // */
 });

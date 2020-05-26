@@ -24,17 +24,17 @@ import { DurationStrategy } from 'src/app/_models/MetricStrategies/DurationStrat
 })
 
 export class CompositeScoreComponent implements OnInit {
-  //declared variables
-  metricsDisplay: string; //metric selected in dropdown
+  // declared variables
+  metricsDisplay: string; // metric selected in dropdown
   compositeScoreTitle: string; // Title associated with the type of metric being displayed
-  compositeScore: string; //the composite score in string
+  compositeScore: string; // the composite score in string
   average: number;  // The raw value from the average metrics
 
-  @Output() onOutliersRequested = new EventEmitter<Boolean>();
+  @Output() onOutliersRequested = new EventEmitter<boolean>();
 
   getOutliers() {
     this.onOutliersRequested.emit(true);
-    console.log("getOutliers has been called");
+    console.log('getOutliers has been called');
   }
 
   constructor() { }
@@ -44,103 +44,103 @@ export class CompositeScoreComponent implements OnInit {
 
   CalculateCompositeScore(arrayOfMetrics: Array<RawMetrics>, categorySelected: string)
   {
-    //store the element selected
+    // store the element selected
     this.metricsDisplay = categorySelected;
-    console.log("Hey I made it to calculating composite score");
+    console.log('Hey I made it to calculating composite score');
     // iterate over the array of metrics
     // pull the values of the selected metric into a new array to perform stats
     // we need an average to get started
     // add outliers here later
     let total = 0;
 
-    for (let trackMetric of arrayOfMetrics)
+    for (const trackMetric of arrayOfMetrics)
     {
-      switch(this.metricsDisplay)
+      switch (this.metricsDisplay)
       {
-        case "danceability":
+        case 'danceability':
           {
             total += trackMetric.danceability;
             break;
           }
-        case "energy":
+        case 'energy':
           {
             total += trackMetric.energy;
             break;
           }
-        case "mode":
+        case 'mode':
           {
             total += trackMetric.mode;
             break;
           }
-        case "speechiness":
+        case 'speechiness':
           {
             total += trackMetric.speechiness;
             break;
           }
-        case "acousticness":
+        case 'acousticness':
           {
             total += trackMetric.acousticness;
             break;
           }
-        case "instrumentalness":
+        case 'instrumentalness':
           {
-            if(trackMetric.instrumentalness > 0.2)
+            if (trackMetric.instrumentalness > 0.2)
             {
               total += 1;
             }
-            //total += trackMetric.instrumentalness;
+            // total += trackMetric.instrumentalness;
             break;
           }
-        case "liveness":
+        case 'liveness':
           {
-            if(trackMetric.liveness > 0.4)
+            if (trackMetric.liveness > 0.4)
             {
               total += 1;
             }
-            //total += trackMetric.liveness;
+            // total += trackMetric.liveness;
             break;
           }
-        case "valence":
+        case 'valence':
           {
             total += trackMetric.valence;
             break;
           }
-        case "tempo":
+        case 'tempo':
           {
             total += trackMetric.tempo;
             break;
           }
-        case "time_signature":
+        case 'time_signature':
           {
             total += trackMetric.time_signature;
             break;
           }
-        case "duration_ms":
+        case 'duration_ms':
           {
             total += trackMetric.duration_ms;
             break;
           }
         default:
           {
-            console.log("hello, I've experienced an error somehow, or the user didn't select a category");
-          } 
+            console.log('hello, I\'ve experienced an error somehow, or the user didn\'t select a category');
+          }
       }
 
     }
     console.log(total);
     console.log(arrayOfMetrics.length);
 
-    //this.compositeScore = parseFloat((total / arrayOfMetrics.length).toFixed(2)).toFixed(2);
+    // this.compositeScore = parseFloat((total / arrayOfMetrics.length).toFixed(2)).toFixed(2);
     this.average = total / arrayOfMetrics.length;
-    
-    console.log("Average: " + this.average);
+
+    console.log('Average: ' + this.average);
 
     this.ConvertMetricToValue();
-    //console.log(this.compositeScore);
+    // console.log(this.compositeScore);
     // console.log(average);
     // (<HTMLSelectElement>document.getElementById('metricSelected')).value = "0";
-    //TODO: add valueable stats to user here (standard deviation, regression analysis)
-    //TODO: get fix for CORS policy error
+    // TODO: add valueable stats to user here (standard deviation, regression analysis)
+    // TODO: get fix for CORS policy error
   }
 
 
@@ -148,82 +148,82 @@ export class CompositeScoreComponent implements OnInit {
   {
     // Convert metric to a valuable piece of information to a user:
       // Tabled:
-        // Loudness float between -60 and 0 convert to decibels 
+        // Loudness float between -60 and 0 convert to decibels
         // Valence normal curve mean of 0.5, speaks to positiveness of a given song
 
-    //*/
+    // */
 
-    var metricStrategy: IMetricStrategy;
+    let metricStrategy: IMetricStrategy;
 
-    switch(this.metricsDisplay)
+    switch (this.metricsDisplay)
       {
-        case "danceability":
+        case 'danceability':
           {
             metricStrategy = new DanceabilityStrategy();
             break;
           }
-        case "energy":
+        case 'energy':
           {
             metricStrategy = new EnergyStrategy();
             break;
           }
-        case "mode":
+        case 'mode':
           {
             metricStrategy = new ModeStrategy();
             break;
           }
-        case "speechiness":
+        case 'speechiness':
           {
             metricStrategy = new SpeechinessStrategy();
             break;
           }
-        case "acousticness":
+        case 'acousticness':
           {
             metricStrategy = new AcousticnessStrategy();
             break;
           }
-        case "instrumentalness":
+        case 'instrumentalness':
           {
             metricStrategy = new InstrumentalnessStrategy();
             break;
           }
-        case "liveness":
+        case 'liveness':
           {
             metricStrategy = new LivenessStrategy();
             break;
           }
-        case "valence":
+        case 'valence':
           {
             metricStrategy = new ValenceStrategy();
             break;
           }
-        case "tempo":
+        case 'tempo':
           {
             metricStrategy = new TempoStrategy();
             break;
           }
-        case "time_signature":
+        case 'time_signature':
           {
             metricStrategy = new TimeSignatureStrategy();
             break;
           }
-        case "duration_ms":
+        case 'duration_ms':
           {
             metricStrategy = new DurationStrategy();
             break;
           }
         default:
           {
-            console.log("hello, I've experienced an error somehow, or the user didn't select a category");
+            console.log('hello, I\'ve experienced an error somehow, or the user didn\'t select a category');
             metricStrategy = undefined;
-          } 
+          }
       }
 
-      if(metricStrategy)
+    if (metricStrategy)
       {
         this.compositeScoreTitle = metricStrategy.GetDisplayTitle();
         this.compositeScore = metricStrategy.ConvertToValue(this.average);
       }
-    //*/
+    // */
   }
 }

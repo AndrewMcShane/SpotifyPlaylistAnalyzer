@@ -16,69 +16,69 @@ export class RawMetrics
     valence: number;
 
     getMetric(metric: string): number {
-      var toReturn: number = Number.NEGATIVE_INFINITY;
+      let toReturn: number = Number.NEGATIVE_INFINITY;
 
-      switch(metric) {
-        case "acousticness":
+      switch (metric) {
+        case 'acousticness':
           {
-            toReturn = this.acousticness
+            toReturn = this.acousticness;
             break;
           }
-        case "danceability":
+        case 'danceability':
           {
-            toReturn = this.danceability
+            toReturn = this.danceability;
             break;
-          } 
-        case "duration_ms":
+          }
+        case 'duration_ms':
           {
             toReturn = this.duration_ms;
             break;
-          } 
-        case "energy":
+          }
+        case 'energy':
           {
             toReturn = this.energy;
             break;
-          } 
-        case "instrumentalness":
+          }
+        case 'instrumentalness':
           {
             toReturn = this.instrumentalness;
             break;
-          } 
-        case "liveness":
+          }
+        case 'liveness':
           {
             toReturn = this.liveness;
             break;
-          } 
-        case "mode":
+          }
+        case 'mode':
           {
             toReturn = this.mode;
             break;
-          } 
-        case "speechiness":
+          }
+        case 'speechiness':
           {
             toReturn = this.speechiness;
             break;
-          } 
-        case "tempo":
+          }
+        case 'tempo':
           {
-            toReturn = this.tempo
+            toReturn = this.tempo;
             break;
-          } 
-        case "time_signature":
+          }
+        case 'time_signature':
           {
             toReturn = this.time_signature;
             break;
-          } 
-        case "valence":
+          }
+        case 'valence':
           {
             toReturn = this.valence;
             break;
-          } 
+          }
         default:
           {
-            console.log(metric + " is not a valid category");
+            console.log(metric + ' is not a valid category');
             break;
-          }                            
+          }
       }
       return toReturn;
     }
